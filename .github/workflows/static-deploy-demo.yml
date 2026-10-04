@@ -17,8 +17,13 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-north-1
       - name: Code Static Website to S3
+        if: success()
         run: |
+              echo "We are deleting the Object from the S3 instance"
               aws s3 sync ./ s3://static-s3-demo-first/ \
               --exclude "*" \
               --include "index.html"
-     
+      - name: Delete Everything if works
+        run: |
+            aws s3 rm s3://static-s3-demo-first/ --recursive
+            aws s3 rb s3://static-s3-demo-first/
