@@ -6,6 +6,15 @@ jobs:
         steps:
            - name: checkout Code 
              uses: actions/checkout@v4
-           - name: Print the Code 
-             run: cat index.html
+           - name: Configure AWS credentials
+             uses: aws-actions/configure-aws-credentials@v4
+             with:
+               aws-access-key-id: ${{secrets.AWS_ACCESS_KEY_ID}}
+               aws-secret-access-key: ${{secrets.AWS_ACCESS_KEY}}
+               aws-region: eu-north-1
+           - name: Code Static Website to S3
+             run: |
+                 aws s3 sync ./ s3://static-s3-demo-first/ \
+                 --exclude: "*" \
+                 --include: "index.html"
           
