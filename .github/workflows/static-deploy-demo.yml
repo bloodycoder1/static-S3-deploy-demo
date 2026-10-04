@@ -1,0 +1,11 @@
+name: Deploy HTML to S3
+on: push
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+           - name: checkout Code 
+             uses: actions/checkout@v4
+           - name: Print the Code 
+             run: cat index.html
+          
